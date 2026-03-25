@@ -149,12 +149,43 @@ claude plugin install claude-mem
    ```
 
 3. Register the plugin in your Claude Code settings (`~/.claude/settings.json`):
+
+   If the file already exists, add the highlighted entries to your existing config:
    ```json
    {
-     "plugins": {
-       "claude-mem@thedotmack": {
-         "enabled": true,
-         "scope": "user"
+     "enabledPlugins": {
+       "claude-mem@thedotmack": true
+     },
+     "extraKnownMarketplaces": {
+       "thedotmack": {
+         "source": {
+           "source": "github",
+           "repo": "thedotmack/claude-mem"
+         }
+       }
+     }
+   }
+   ```
+
+   If you already have other plugins (e.g., discord), just merge the entries:
+   ```json
+   {
+     "enabledPlugins": {
+       "discord@claude-plugins-official": true,
+       "claude-mem@thedotmack": true
+     },
+     "extraKnownMarketplaces": {
+       "claude-plugins-official": {
+         "source": {
+           "source": "github",
+           "repo": "anthropics/claude-plugins-official"
+         }
+       },
+       "thedotmack": {
+         "source": {
+           "source": "github",
+           "repo": "thedotmack/claude-mem"
+         }
        }
      }
    }

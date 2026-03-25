@@ -116,28 +116,39 @@ main() {
     else
       warn "Plugin not found in settings.json"
       echo ""
-      echo "  Add this to your $SETTINGS_FILE under \"plugins\":"
+      echo "  Add these entries to your $SETTINGS_FILE:"
       echo ""
-      echo "    \"claude-mem@thedotmack\": {"
-      echo "      \"enabled\": true,"
-      echo "      \"scope\": \"user\""
-      echo "    }"
+      echo '  In "enabledPlugins":'
+      echo '    "claude-mem@thedotmack": true'
+      echo ""
+      echo '  In "extraKnownMarketplaces":'
+      echo '    "thedotmack": {'
+      echo '      "source": {'
+      echo '        "source": "github",'
+      echo '        "repo": "thedotmack/claude-mem"'
+      echo '      }'
+      echo '    }'
       echo ""
     fi
   else
     warn "settings.json not found at $SETTINGS_FILE"
-    echo ""
-    echo "  Create $SETTINGS_FILE with:"
-    echo ""
-    echo "    {"
-    echo "      \"plugins\": {"
-    echo "        \"claude-mem@thedotmack\": {"
-    echo "          \"enabled\": true,"
-    echo "          \"scope\": \"user\""
-    echo "        }"
-    echo "      }"
-    echo "    }"
-    echo ""
+    info "Creating settings.json with plugin registration..."
+    cat > "$SETTINGS_FILE" << 'SETTINGS_EOF'
+{
+  "enabledPlugins": {
+    "claude-mem@thedotmack": true
+  },
+  "extraKnownMarketplaces": {
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  }
+}
+SETTINGS_EOF
+    success "settings.json created with plugin registered"
   fi
 
   # --- Done ---
